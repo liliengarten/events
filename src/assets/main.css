@@ -1,0 +1,24 @@
+header {
+    max-height: 80px;
+    min-height: 80px;
+}
+
+.modalWrapper {
+    width: 100vw;
+    height: calc(100vh - 80px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 30vw;
+}
+
+form * {
+    text-align: start;
+}
