@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import AuthorizationView from "@/views/AuthorizationView.vue";
 import AboutView from "@/views/AboutView.vue";
 import EventsView from "@/views/EventsView.vue";
+import ProfileView from "@/views/ProfileView.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/events",
     name: "events",
     component: EventsView,
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: ProfileView,
   },
 ];
 

@@ -16,8 +16,8 @@ onMounted(() => {
 
     <img
       v-if="aboutInfo.img?.url"
-      :src="`${imageUrl}${aboutInfo.img.url}`"
-      alt="sdfsd"
+      :src="`${imageUrl}/${aboutInfo.img.url}`"
+      alt="project photo"
     />
   </div>
 </template>

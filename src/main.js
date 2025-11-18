@@ -6,7 +6,7 @@ import "@/assets/main.css";
 createApp(App).use(router).mount("#app");
 
 export const baseUrl = `http://ykefkfi-m4.wsr.ru/api-travel`;
-export const imageUrl = "http://ykefkfi-m4.wsr.ru/";
+export const imageUrl = "http://ykefkfi-m4.wsr.ru";
 
 export const api = async (url, options = {}) => {
   const response = await fetch(`${baseUrl}${url}`, {
@@ -17,7 +17,7 @@ export const api = async (url, options = {}) => {
       ...options.headers,
     },
   });
-
   const { data } = await response.json();
+  console.log(data);
   return data;
 };

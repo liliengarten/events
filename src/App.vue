@@ -3,7 +3,11 @@
     <nav>
       <router-link to="/about">О проекте</router-link>
       <router-link to="/events">Список мероприятий</router-link>
-      <a href="#" @click="logout">Выйти</a>
+      <search-bar></search-bar>
+      <div>
+        <router-link to="/profile">Личный кабинет</router-link>
+        <a href="#" @click="logout">Выйти</a>
+      </div>
     </nav>
   </header>
   <router-view />
@@ -33,6 +37,7 @@ nav a.router-link-exact-active {
 </style>
 <script setup>
 import { useRouter } from "vue-router";
+import SearchBar from "@/components/SearchBar.vue";
 
 const router = useRouter();
 const logout = () => {

@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 header {
     max-height: 80px;
     min-height: 80px;
@@ -5,7 +11,7 @@ header {
 
 .modalWrapper {
     width: 100vw;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 80px - 120px);
 
     display: flex;
     justify-content: center;
@@ -22,3 +28,48 @@ form {
 form * {
     text-align: start;
 }
+
+.modal {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+}
+
+.modalWrapper {
+    position: relative;
+    max-width: 700px;
+    height: 700px;
+    background-color: darkseagreen;
+}
+
+.closeButton {
+    position: absolute;
+    left: 2%;
+    top: 2%;
+}
+
+.hideScroll {
+    max-height: calc(100vh - 110px);
+    overflow-y: scroll;
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mainB {
+    background-color: darkseagreen;
+    padding: 12px;
+    border-radius: 12px;
+
+    transition: .5s;
+}
+
+

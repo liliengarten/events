@@ -3,11 +3,14 @@ import { useModals } from "@/store";
 import { api } from "@/main";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useUser } from "@/store";
 
 const router = useRouter();
 
 const { registrationVisible, loginVisible, authorizationVisibility } =
   useModals();
+
+const { getUser } = useUser();
 
 const loginInfo = reactive({
   email: "",
@@ -39,6 +42,7 @@ const attemptLogin = async () => {
     });
 
     localStorage.setItem("userToken", data.token);
+    await getUser(data.user.id);
     router.push("/about");
   } catch (err) {
     console.log(err);
@@ -47,8 +51,9 @@ const attemptLogin = async () => {
 </script>
 
 <template>
-  <div class="modalWrapper">
+  <div class="modal">
     <form
+      class="modalWrapper"
       enctype="multipart/form-data"
       v-show="registrationVisible"
       @submit.prevent="attemptRegistration"
@@ -80,7 +85,11 @@ const attemptLogin = async () => {
         <a href="#" @click="authorizationVisibility">Войти</a>
       </p>
     </form>
-    <form v-show="loginVisible" @submit.prevent="attemptLogin">
+    <form
+      class="modalWrapper"
+      v-show="loginVisible"
+      @submit.prevent="attemptLogin"
+    >
       <label>E-mail</label>
       <input type="text" v-model="loginInfo.email" />
       <label>Пароль</label>
@@ -95,4 +104,8 @@ const attemptLogin = async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.modal {
+  backdrop-filter: blur(0);
+}
+</style>
