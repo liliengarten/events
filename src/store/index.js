@@ -1,7 +1,8 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { api } from "@/main";
 
 const user = ref({});
+const userToken = ref(localStorage.getItem("userToken") || "");
 
 const aboutInfo = ref([]);
 const events = ref([]);
@@ -87,8 +88,18 @@ export const useUser = () => {
 
     user.value = data.body[0];
   };
+  const setToken = (token) => {
+    userToken.value = token;
+  };
+  const isAuthorized = computed(() => {
+    if (userToken.value !== "") return true;
+    else return false;
+  });
   return {
     user,
     getUser,
+    userToken,
+    setToken,
+    isAuthorized,
   };
 };

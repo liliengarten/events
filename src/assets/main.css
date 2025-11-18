@@ -29,7 +29,7 @@ form * {
     text-align: start;
 }
 
-.modal {
+.modall {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -41,11 +41,16 @@ form * {
     backdrop-filter: blur(6px);
 }
 
+.h-full {
+    height: calc(100vh - 95px);
+}
+
 .modalWrapper {
     position: relative;
-    max-width: 700px;
-    height: 700px;
+    width: 40%;
+    height: fit-content;
     background-color: darkseagreen;
+    padding: 24px;
 }
 
 .closeButton {
@@ -59,17 +64,13 @@ form * {
     overflow-y: scroll;
 }
 
-header nav {
-    display: flex;
-    justify-content: space-between;
-}
-
 .mainB {
-    background-color: darkseagreen;
-    padding: 12px;
-    border-radius: 12px;
-
+    border-radius: 8px;
+    padding: 8px;
     transition: .5s;
+    border: 1px solid black;
 }
+
+
 
 

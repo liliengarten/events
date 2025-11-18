@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "@/assets/main.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap";
 
 createApp(App).use(router).mount("#app");
 
@@ -18,6 +20,9 @@ export const api = async (url, options = {}) => {
     },
   });
   const { data } = await response.json();
-  console.log(data);
   return data;
+};
+export const checkAuthorization = () => {
+  if (!localStorage.getItem("userToken")) router.push("/login");
+  return;
 };

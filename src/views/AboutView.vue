@@ -2,10 +2,13 @@
 import { useAboutInfo } from "@/store";
 import { onMounted } from "vue";
 import { imageUrl } from "@/main";
+import { checkAuthorization } from "@/main";
+
 const { aboutInfo, getAbout } = useAboutInfo();
 
 onMounted(() => {
   getAbout();
+  checkAuthorization();
 });
 </script>
 <template>

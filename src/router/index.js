@@ -1,17 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
-import AuthorizationView from "@/views/AuthorizationView.vue";
 import AboutView from "@/views/AboutView.vue";
 import EventsView from "@/views/EventsView.vue";
 import ProfileView from "@/views/ProfileView.vue";
+import loginView from "@/views/LoginView.vue";
+import registrationView from "@/views/RegistrationView.vue";
 
 const routes = [
   {
-    path: "/",
-    name: "authorization",
-    component: AuthorizationView,
+    path: "/registration",
+    name: "registration",
+    component: registrationView,
   },
   {
-    path: "/about",
+    path: "/login",
+    name: "login",
+    component: loginView,
+  },
+  {
+    path: "/",
     name: "about",
     component: AboutView,
   },

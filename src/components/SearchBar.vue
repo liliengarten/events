@@ -17,9 +17,13 @@ const search = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="search">
-    <input type="text" v-model="searchField" />
-    <button type="submit">Поиск</button>
+  <form @submit.prevent="search" class="flex-row w-25">
+    <input
+      class="w-100 rounded-3 p-1 border-1"
+      type="text"
+      v-model="searchField"
+    />
+    <button type="submit" class="rounded-3 p-1 border-1">Поиск</button>
   </form>
 </template>
 
