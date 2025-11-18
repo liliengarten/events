@@ -4,6 +4,7 @@ import EventsView from "@/views/EventsView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import loginView from "@/views/LoginView.vue";
 import registrationView from "@/views/RegistrationView.vue";
+import EventView from "@/views/EventView.vue";
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: "/events",
     name: "events",
     component: EventsView,
+  },
+  {
+    path: "/events/:id",
+    name: "post",
+    component: EventView,
   },
   {
     path: "/profile",
