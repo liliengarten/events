@@ -6,7 +6,10 @@ const userToken = ref(localStorage.getItem("userToken") || "");
 
 const aboutInfo = ref([]);
 const events = ref([]);
+const event = ref([]);
+const bookedEvents = ref([]);
 const eventPlaces = ref([]);
+const feedbacks = ref([]);
 
 export const useAboutInfo = () => {
   const getAbout = async () => {
@@ -26,18 +29,50 @@ export const useEvents = () => {
     events.value = data;
   };
 
+  const getEvent = async (id) => {
+    const data = await api(`/events/${id}`, {});
+    event.value = data;
+  };
+
   const getEventPlaces = async () => {
     const data = await api("/event-places", {
       method: "GET",
     });
-    eventPlaces.value = data;
+
+    let places = [];
+    data.forEach((place) => {
+      if (place.owner) places.push(place);
+    });
+
+    eventPlaces.value = places;
+  };
+
+  const getFeedback = async (id) => {
+    const data = await api(`/feedbacks/${id}`, {
+      method: "GET",
+    });
+    feedbacks.value = data;
+  };
+
+  const getBookedEvents = async () => {
+    const data = await api("/book-event", {
+      method: "GET",
+    });
+    console.log(data);
+    bookedEvents.value = data;
   };
 
   return {
     events,
     getEvents,
+    event,
+    getEvent,
     getEventPlaces,
     eventPlaces,
+    feedbacks,
+    getFeedback,
+    bookedEvents,
+    getBookedEvents,
   };
 };
 
@@ -48,6 +83,8 @@ export const useModals = () => {
   const editEventVisible = ref(false);
   const addPersonVisible = ref(false);
   const addPlaceVisible = ref(false);
+  const addFeedbackVisible = ref(false);
+  const editProfileVisible = ref(false);
 
   const authorizationVisibility = () => {
     loginVisible.value = !loginVisible.value;
@@ -65,6 +102,12 @@ export const useModals = () => {
   const addPlaceVisibility = () => {
     addPlaceVisible.value = !addPlaceVisible.value;
   };
+  const addFeedbackVisibility = () => {
+    addFeedbackVisible.value = !addFeedbackVisible.value;
+  };
+  const editProfileVisibility = () => {
+    editProfileVisible.value = !editProfileVisible.value;
+  };
   return {
     registrationVisible,
     loginVisible,
@@ -77,6 +120,10 @@ export const useModals = () => {
     addPersonVisibility,
     addPlaceVisible,
     addPlaceVisibility,
+    addFeedbackVisible,
+    addFeedbackVisibility,
+    editProfileVisible,
+    editProfileVisibility,
   };
 };
 

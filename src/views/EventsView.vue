@@ -1,26 +1,13 @@
 <script setup>
 import { useEvents } from "@/store";
-import { onMounted, reactive } from "vue";
+import { onMounted } from "vue";
 import { useModals } from "@/store";
 import EventCard from "@/components/EventCard.vue";
 import { api } from "@/main";
 
 const { getEvents, events, getEventPlaces, eventPlaces } = useEvents();
 
-const {
-  addEventVisible,
-  addEventVisibility,
-  addPlaceVisible,
-  addPlaceVisibility,
-} = useModals();
-
-const place = reactive({
-  name: "",
-  city: "",
-  street: "",
-  house_number: 0,
-  office: 0,
-});
+const { addEventVisible, addEventVisibility } = useModals();
 
 const addEvent = (event) => {
   const formData = new FormData(event.target);
@@ -47,18 +34,6 @@ const addEvent = (event) => {
   }
 };
 
-const addPlace = async () => {
-  await api("/event-places", {
-    method: "POST",
-    body: JSON.stringify(place),
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
-  await getEventPlaces();
-  addPlaceVisibility();
-};
-
 onMounted(() => {
   getEvents();
   getEventPlaces();
@@ -69,9 +44,6 @@ onMounted(() => {
     <div class="buttons">
       <button class="mainB" @click="addEventVisibility">
         Добавить мероприятие
-      </button>
-      <button class="mainB" @click="addPlaceVisibility">
-        Добавить место проведения
       </button>
     </div>
     <div v-if="events" class="hideScroll">
@@ -113,26 +85,6 @@ onMounted(() => {
           <p>Количество мест</p>
           <input type="text" name="event_counter" />
           <button type="submit">Добавить мероприятие</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="modal" v-show="addPlaceVisible">
-      <div class="modalWrapper">
-        <button class="closeButton" @click="addPlaceVisibility">Назад</button>
-        <form @submit.prevent="addPlace">
-          <p>Название организации</p>
-          <input type="text" v-model="place.name" />
-          <p>Город</p>
-          <input type="text" v-model="place.city" />
-          <p>Улица</p>
-          <input type="text" v-model="place.street" />
-          <p>Номер дома</p>
-          <input type="text" v-model="place.house_number" />
-          <p>Офис</p>
-          <input type="text" v-model="place.office" />
-
-          <button type="submit">Добавить место проведения</button>
         </form>
       </div>
     </div>

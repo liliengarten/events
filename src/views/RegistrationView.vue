@@ -17,32 +17,6 @@ const attemptRegistration = async (event) => {
 </script>
 
 <template>
-  <div class="accordion" id="events">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseOne"
-        >
-          Заголовок
-        </button>
-      </h2>
-      <div
-        id="collapseOne"
-        class="accordion-collapse collapse show"
-        data-bs-parent="#events"
-      >
-        <div class="accordion-body">
-          <p>dsfsdfds</p>
-          <p>dsfsdfds</p>
-          <p>dsfsdfds</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="d-flex align-items-center justify-content-center h-full">
     <form
       class="modalWrapper rounded-5"

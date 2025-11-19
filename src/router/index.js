@@ -18,7 +18,7 @@ const routes = [
     component: loginView,
   },
   {
-    path: "/",
+    path: "/about",
     name: "about",
     component: AboutView,
   },
@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: "/events/:id",
-    name: "post",
+    name: "event",
     component: EventView,
   },
   {

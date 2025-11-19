@@ -65,7 +65,7 @@ const logout = () => {
   if (localStorage.getItem("userToken")) {
     localStorage.setItem("userToken", "");
     setToken("");
-    router.push("/");
+    router.push("/login");
   }
 };
 </script>

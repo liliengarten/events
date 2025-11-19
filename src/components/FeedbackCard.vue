@@ -12,6 +12,7 @@ const props = defineProps({
 
 <template>
   <div>
+    <p>1</p>
     <div>
       <p>{{ props.feedback.user.first_name }}</p>
       <p>{{ props.feedback.user.last_name }}</p>
@@ -19,7 +20,6 @@ const props = defineProps({
     <div>
       <p>{{ props.feedback.text }}</p>
     </div>
-
     <img
       :src="`${imageUrl}/${props.feedback.img_raiting}`"
       alt="feedback image"
