@@ -7,8 +7,10 @@ import { checkAuthorization } from "@/main";
 const { aboutInfo, getAbout } = useAboutInfo();
 
 onMounted(() => {
-  getAbout();
-  checkAuthorization();
+  if (checkAuthorization()) {
+    getAbout();
+    checkAuthorization();
+  }
 });
 </script>
 <template>

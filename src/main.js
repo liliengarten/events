@@ -23,6 +23,9 @@ export const api = async (url, options = {}) => {
   return data;
 };
 export const checkAuthorization = () => {
-  if (!localStorage.getItem("userToken")) router.push("/login");
-  return;
+  if (!localStorage.getItem("userToken")) {
+    router.push("/forbidden-for-you");
+    return false;
+  }
+  return true;
 };

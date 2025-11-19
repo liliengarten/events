@@ -19,76 +19,73 @@ const attemptRegistration = async (event) => {
 <template>
   <div class="d-flex align-items-center justify-content-center h-full">
     <form
-      class="modalWrapper rounded-5"
+      class="modalWrapper rounded-5 d-flex flex-column gap-4"
       enctype="multipart/form-data"
       @submit.prevent="attemptRegistration"
     >
       <h2>Регистрация</h2>
-      <div class="d-flex align-items-start flex-row gap-5">
-        <div>
-          <div class="d-flex flex-column">
-            <label>Имя</label>
-            <input type="text" name="first_name" />
-          </div>
-          <div class="d-flex flex-column">
-            <label>Фамилия</label>
-            <input type="text" name="last_name" />
-          </div>
-          <div class="d-flex flex-column">
-            <label>E-mail</label>
-            <input type="text" name="email" />
-          </div>
+      <div
+        class="d-flex flex-column align-items-start justify-content-center flex-row gap-5"
+      >
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="w-50">
+            <div class="d-flex flex-column">
+              <label>Имя</label>
+              <input required type="text" name="first_name" />
+            </div>
+            <div class="d-flex flex-column">
+              <label>Фамилия</label>
+              <input required type="text" name="last_name" />
+            </div>
 
-          <div>
-            <div class="d-flex flex-row">
-              <div class="d-flex flex-column">
-                <label>Пол</label>
-                <select name="sex">
-                  <option value="мужской">Мужской</option>
-                  <option value="женский">Женский</option>
-                </select>
+            <div>
+              <div
+                class="d-flex flex-row align-items-center justify-content-between gap-2"
+              >
+                <div class="d-flex flex-column">
+                  <label>Пол</label>
+                  <select required name="sex">
+                    <option value="мужской">Мужской</option>
+                    <option value="женский">Женский</option>
+                  </select>
+                </div>
+                <div class="d-flex flex-column">
+                  <label>Дата рождения</label>
+                  <input required type="date" name="birth_date" />
+                </div>
               </div>
               <div class="d-flex flex-column">
                 <label>Фото</label>
-                <input type="file" name="photo" />
+                <input required type="file" name="photo" />
               </div>
             </div>
+          </div>
+          <div class="d-flex flex-column">
             <div class="d-flex flex-column">
-              <label>Дата рождения</label>
-              <input type="date" name="birth_date" />
+              <label>E-mail</label>
+              <input required type="text" name="email" />
             </div>
+            <label>Пароль</label>
+            <input required type="password" name="password" />
+            <label>Повтор пароля</label>
+            <input required type="password" name="passwordRepeat" />
           </div>
         </div>
-        <div class="d-flex flex-column">
-          <label>Пароль</label>
-          <input type="password" name="password" />
-          <label>Повтор пароля</label>
-          <input type="password" name="passwordRepeat" />
-        </div>
       </div>
+      <div
+        class="d-flex flex-column justify-content-center align-items-center gap-2"
+      >
+        <div class="d-flex justify-content-center align-items-center gap-2">
+          <p class="w-100">Соглашение на обработку персональных данных</p>
+          <input required type="checkbox" />
+        </div>
 
-      <button class="mainB" type="submit">Зарегистрироваться</button>
+        <button class="btn btn-success w-50" type="submit">
+          Зарегистрироваться
+        </button>
+      </div>
     </form>
   </div>
 </template>
 
-<style scoped>
-.cont {
-  border: 1px solid black;
-  margin-bottom: 52px;
-}
-
-.accordion-collapse {
-  transition: height 0.4s ease-in-out, opacity 0.3s ease-in-out !important;
-}
-
-/* Плавное изменение фона кнопки */
-.accordion-button {
-  transition: all 0.3s ease-in-out;
-}
-
-.accordion-button:not(.collapsed) {
-  background-color: #e7f1ff;
-  color: #0c63e4;
-}
-</style>
+<style scoped></style>

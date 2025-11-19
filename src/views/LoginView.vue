@@ -33,13 +33,18 @@ const attemptLogin = async () => {
 
 <template>
   <div class="d-flex align-items-center justify-content-center h-full">
-    <form class="modalWrapper rounded-5" @submit.prevent="attemptLogin">
+    <form
+      class="modalWrapper d-flex flex-column align-items-center justify-content-center gap-4 rounded-5"
+      @submit.prevent="attemptLogin"
+    >
       <h2>Авторизация</h2>
-      <label>E-mail</label>
-      <input type="text" v-model="loginInfo.email" />
-      <label>Пароль</label>
-      <input type="password" v-model="loginInfo.password" />
-      <button class="mainB" type="submit">Войти</button>
+      <div class="d-flex flex-column align-items-start gap-2">
+        <label>E-mail</label>
+        <input required type="text" v-model="loginInfo.email" />
+        <label>Пароль</label>
+        <input required type="password" v-model="loginInfo.password" />
+      </div>
+      <button class="btn btn-success w-100" type="submit">Войти</button>
     </form>
   </div>
 </template>

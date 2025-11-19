@@ -3,7 +3,7 @@ import { useEvents } from "@/store";
 import { onMounted } from "vue";
 import { useModals } from "@/store";
 import EventCard from "@/components/EventCard.vue";
-import { api } from "@/main";
+import { api, checkAuthorization } from "@/main";
 
 const { getEvents, events, getEventPlaces, eventPlaces } = useEvents();
 
@@ -35,17 +35,43 @@ const addEvent = (event) => {
 };
 
 onMounted(() => {
-  getEvents();
-  getEventPlaces();
+  if (checkAuthorization()) {
+    getEvents();
+    getEventPlaces();
+  }
 });
 </script>
 <template>
   <div>
     <div class="buttons">
-      <button class="mainB" @click="addEventVisibility">
+      <button class="btn btn-outline-success" @click="addEventVisibility">
         Добавить мероприятие
       </button>
     </div>
+    <div class="accordion" id="eventsAccordion">
+      <div v-for="event in events" :key="event.id" class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collpace"
+            :data-bs-target="`#${event.id}`"
+          >
+            {{ event.name }}
+          </button>
+          <div
+            :id="event.id"
+            class="accordion-collapse collapse"
+            data-bs-parent="#eventsAccordion"
+          >
+            <div class="accordion-body">
+              <event-card event="event"></event-card>
+            </div>
+          </div>
+        </h2>
+      </div>
+    </div>
+
     <div v-if="events" class="hideScroll">
       <event-card
         v-for="event in events"
@@ -53,8 +79,7 @@ onMounted(() => {
         :event="event"
       ></event-card>
     </div>
-
-    <div class="modal" v-show="addEventVisible">
+    <div class="modall" v-show="addEventVisible">
       <div class="modalWrapper">
         <button class="closeButton" @click="addEventVisibility">Назад</button>
         <form @submit.prevent="addEvent" enctype="multipart/form-data">

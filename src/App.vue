@@ -41,10 +41,15 @@ nav {
 nav a {
   font-weight: bold;
   color: #2c3e50;
+  transition: 0.3s;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  text-decoration: underline #a9d2da;
+}
+
+nav a:hover {
+  transform: translateY(3px);
 }
 </style>
 <script setup>

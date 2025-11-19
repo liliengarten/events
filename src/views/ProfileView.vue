@@ -1,7 +1,7 @@
 <script setup>
 import { useEvents, useModals, useUser } from "@/store";
 import { onMounted, reactive, ref } from "vue";
-import { api, imageUrl } from "@/main";
+import { api, checkAuthorization, imageUrl } from "@/main";
 
 const { user, getUser } = useUser();
 const { getEventPlaces, eventPlaces } = useEvents();
@@ -34,22 +34,31 @@ const place = reactive({
   house_number: 0,
   office: 0,
 });
+
+const clearPerson = () => {
+  personInfo.first_name = "";
+  personInfo.last_name = "";
+  personInfo.date = "";
+  personInfo.sex = "";
+};
 const addToPersons = () => {
+  if (persons.value.length === 5) {
+    clearPerson();
+    return;
+  }
+
   let date = personInfo.date.split("-");
   date = `${date[2]}-${date[1]}-${date[0]}`;
+
   let person = {
     first_name: personInfo.first_name,
     last_name: personInfo.last_name,
     date: date,
     sex: personInfo.sex,
   };
-  console.log(person);
-  persons.value.push(person);
 
-  personInfo.first_name = "";
-  personInfo.last_name = "";
-  personInfo.date = "";
-  personInfo.sex = "";
+  clearPerson();
+  persons.value.push(person);
 };
 const addPersons = async () => {
   await api("/users/peoples", {
@@ -103,8 +112,10 @@ const deletePlace = async (id) => {
 };
 
 onMounted(async () => {
-  await getUser(localStorage.getItem("userId"));
-  await getEventPlaces();
+  if (checkAuthorization()) {
+    await getUser(localStorage.getItem("userId"));
+    await getEventPlaces();
+  }
 });
 </script>
 
@@ -117,6 +128,7 @@ onMounted(async () => {
         <div class="d-flex gap-2">
           <p>{{ user.first_name }}</p>
           <p>{{ user.last_name }}</p>
+          <p>{{ user.sex }}</p>
         </div>
         <h2>Email</h2>
         <p>{{ user.email }}</p>

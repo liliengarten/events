@@ -3,7 +3,7 @@
 import { computed, onMounted } from "vue";
 import { useEvents, useModals } from "@/store";
 import { useRoute } from "vue-router";
-import { api, imageUrl } from "@/main";
+import { api, checkAuthorization, imageUrl } from "@/main";
 import FeedbackCard from "@/components/FeedbackCard.vue";
 import router from "@/router";
 
@@ -77,8 +77,10 @@ const placesLeft = computed(() => {
 });
 
 onMounted(async () => {
-  await getEvent(eventId);
-  await getFeedback(eventId);
+  if (checkAuthorization()) {
+    await getEvent(eventId);
+    await getFeedback(eventId);
+  }
 });
 </script>
 

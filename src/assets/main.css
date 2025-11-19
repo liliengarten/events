@@ -52,11 +52,12 @@ form * {
 
 .modalWrapper {
     position: relative;
-    width: 40%;
+    width: fit-content;
     height: fit-content;
-    background-color: darkseagreen;
-    padding: 24px;
+    background-color: #a8d2da;
+    padding: 3%;
 }
+
 
 .closeButton {
     position: absolute;
@@ -80,6 +81,10 @@ form * {
     max-width: 80vw;
     height: calc(100vh - 100px);
     margin: auto;
+}
+
+.btn {
+    transition: .3s;
 }
 
 

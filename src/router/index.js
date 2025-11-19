@@ -5,8 +5,34 @@ import ProfileView from "@/views/ProfileView.vue";
 import loginView from "@/views/LoginView.vue";
 import registrationView from "@/views/RegistrationView.vue";
 import EventView from "@/views/EventView.vue";
+import NotFoundView from "@/views/NotFoundView.vue";
+import ForbiddenForYou from "@/views/ForbiddenForYou.vue";
+
+const mainRedirect = () => {
+  if (localStorage.getItem("userToken")) return "/about";
+  return "/registration";
+};
 
 const routes = [
+  {
+    path: "/",
+    redirect: mainRedirect(),
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    component: NotFoundView,
+  },
+  {
+    path: "/forbidden-for-you",
+    name: "forbidden-for-you",
+    component: ForbiddenForYou,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "forbidden",
+    component: NotFoundView,
+  },
   {
     path: "/registration",
     name: "registration",
