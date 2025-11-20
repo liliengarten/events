@@ -20,8 +20,10 @@ const attemptLogin = async () => {
       },
       body: JSON.stringify(loginInfo),
     });
+    console.log(data);
 
     localStorage.setItem("userToken", data.token);
+    localStorage.setItem("userId", data.user.id);
     setToken(data.token);
     await getUser(data.user.id);
     router.push("/about");

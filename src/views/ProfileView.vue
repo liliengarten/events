@@ -7,6 +7,7 @@ const { user, getUser } = useUser();
 const { getEventPlaces, eventPlaces } = useEvents();
 const { addPlaceVisible, addPlaceVisibility } = useModals();
 const persons = ref([]);
+const errors = ref([]);
 
 const {
   addPersonVisible,
@@ -42,23 +43,29 @@ const clearPerson = () => {
   personInfo.sex = "";
 };
 const addToPersons = () => {
-  if (persons.value.length === 5) {
+  if (validateRegistration(personInfo)) {
+    if (persons.value.length === 5) {
+      alert("Можно добавить максимум 5 человек!");
+      clearPerson();
+      return;
+    }
+
+    personInfo.first_name[0] = personInfo.first_name[0].toUpperCase();
+    personInfo.last_name[0] = personInfo.last_name[0].toUpperCase();
+
+    let date = personInfo.date.split("-");
+    date = `${date[2]}-${date[1]}-${date[0]}`;
+
+    let person = {
+      first_name: personInfo.first_name,
+      last_name: personInfo.last_name,
+      date: date,
+      sex: personInfo.sex,
+    };
+
     clearPerson();
-    return;
+    persons.value.push(person);
   }
-
-  let date = personInfo.date.split("-");
-  date = `${date[2]}-${date[1]}-${date[0]}`;
-
-  let person = {
-    first_name: personInfo.first_name,
-    last_name: personInfo.last_name,
-    date: date,
-    sex: personInfo.sex,
-  };
-
-  clearPerson();
-  persons.value.push(person);
 };
 const addPersons = async () => {
   await api("/users/peoples", {
@@ -109,6 +116,46 @@ const deletePlace = async (id) => {
     method: "DELETE",
   });
   await getEventPlaces();
+};
+
+const validateRegistration = (formData) => {
+  errors.value = [];
+  const latin = /[a-zA-Z]/;
+  const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const first_name = formData.first_name;
+  const last_name = formData.last_name;
+
+  let containsLatin = false;
+  let includesNumbers = false;
+
+  if (latin.test(first_name) || latin.test(last_name)) {
+    containsLatin = true;
+  }
+
+  for (let letter of first_name) {
+    if (numbers.includes(letter)) includesNumbers = true;
+  }
+
+  if (!includesNumbers) {
+    for (let letter of last_name) {
+      if (numbers.includes(letter)) includesNumbers = true;
+    }
+  }
+
+  if (containsLatin) {
+    errors.value.push(
+      "Поля имени и фамилии не могут содержать латинских символов!"
+    );
+  }
+  if (!includesNumbers) {
+    errors.value.push("Поля имени и фамилии не могут содержать цифр!");
+  }
+
+  if (includesNumbers || containsLatin) {
+    return false;
+  }
+  return true;
 };
 
 onMounted(async () => {
@@ -196,7 +243,10 @@ onMounted(async () => {
           <label>Дата рождения</label>
           <input type="date" required v-model="personInfo.date" />
           <label>Пол</label>
-          <input type="text" required v-model="personInfo.sex" />
+          <select v-model="personInfo.sex">
+            <option value="мужской">Мужской</option>
+            <option value="мужской">Женский</option>
+          </select>
           <button @click="addToPersons">Добавить</button>
           <button @click="addPersons">Отправить</button>
         </div>

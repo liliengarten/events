@@ -13,8 +13,18 @@ const {
   addFeedbackVisibility,
   editEventVisible,
   editEventVisibility,
+  deleteEventVisible,
+  deleteEventVisibility,
 } = useModals();
-const { event, getEvent, feedbacks, getFeedback, getEvents } = useEvents();
+const {
+  event,
+  getEvent,
+  getEventPlaces,
+  feedbacks,
+  eventPlaces,
+  getFeedback,
+  getEvents,
+} = useEvents();
 let eventId = route.path.split("/");
 eventId = eventId[eventId.length - 1];
 
@@ -40,8 +50,9 @@ const bookEvent = async () => {
   });
 };
 
-const editEvent = (event) => {
+const editEvent = async (event) => {
   const formData = new FormData(event.target);
+
   let start = formData.get("start_date");
   let end = formData.get("end_date");
 
@@ -54,13 +65,17 @@ const editEvent = (event) => {
   ) {
     formData.set("start_date", `${start[0]} ${start[1]}`);
     formData.set("end_date", `${end[0]} ${end[1]}`);
-    api(`/events/${eventId}`, {
+
+    await api(`/events/${eventId}`, {
       method: "PATCH",
       body: formData,
     });
-    getEvents();
+    await getEvents();
     editEventVisibility();
   } else {
+    alert(
+      "Время начала мероприятия должно быть не раньше 9:00, а окончание не позже 21:00"
+    );
     return;
   }
 };
@@ -79,16 +94,20 @@ const placesLeft = computed(() => {
 onMounted(async () => {
   if (checkAuthorization()) {
     await getEvent(eventId);
+    await getEventPlaces();
     await getFeedback(eventId);
   }
 });
 </script>
 
 <template>
-  <div class="p-5 d-flex align-items-start">
+  <div class="wrapper px-5">
     <div>
       <div class="w-50">
         <h2 class="text-start" v-html="event.name"></h2>
+        <div>
+          <h3>Организатор</h3>
+        </div>
         <div class="d-flex gap-3">
           <div>
             <h4>Рейтинг</h4>
@@ -147,15 +166,15 @@ onMounted(async () => {
         Записаться на мероприятие
       </button>
       <div v-show="event.owner">
-        <button @click="deleteEvent" class="btn btn-outline-danger">
+        <button @click="deleteEventVisibility" class="btn btn-outline-danger">
           Удалить мероприятие
         </button>
-        <button @click="editEvent" class="btn btn-outline-warning">
+        <button @click="editEventVisibility" class="btn btn-outline-warning">
           Редактировать мероприятие
         </button>
       </div>
     </div>
-    <div class="modal" v-show="editEventVisible">
+    <div class="modall" v-show="editEventVisible">
       <div class="modalWrapper">
         <button class="closeButton" @click="editEventVisibility">Назад</button>
         <form @submit.prevent="editEvent" enctype="multipart/form-data">
@@ -187,6 +206,20 @@ onMounted(async () => {
           <input type="text" name="event_counter" />
           <button type="submit">Изменить мероприятие</button>
         </form>
+      </div>
+    </div>
+
+    <div class="modall" v-show="deleteEventVisible">
+      <div class="modalWrapper w-50 d-flex flex-column">
+        <h1>Подтвердите удаление мероприятия</h1>
+        <div class="d-flex gap-3">
+          <button class="btn btn-danger" @click="deleteEventVisibility">
+            Я передумал
+          </button>
+          <button class="btn btn-success" @click="deleteEvent">
+            Подтверждаю
+          </button>
+        </div>
       </div>
     </div>
   </div>

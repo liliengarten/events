@@ -9,8 +9,15 @@ p {
 }
 
 header {
+    background-color: white;
+    border-bottom: 1px solid darkgrey;
     max-height: 80px;
     min-height: 80px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .modalWrapper {
@@ -34,7 +41,7 @@ form * {
 }
 
 .modall {
-    position: absolute;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     top: 0;
@@ -58,29 +65,18 @@ form * {
     padding: 3%;
 }
 
-
-.closeButton {
-    position: absolute;
-    left: 2%;
-    top: 2%;
-}
-
-.hideScroll {
-    max-height: calc(100vh - 110px);
-    overflow-y: scroll;
-}
-
-.mainB {
-    border-radius: 8px;
-    padding: 8px;
-    transition: .5s;
-    border: 1px solid black;
-}
-
 .wrapper {
-    max-width: 80vw;
-    height: calc(100vh - 100px);
-    margin: auto;
+    position: relative;
+    margin-top: 150px;
+    margin-bottom: 65px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hideScrool {
+    overflow-y: hidden;
 }
 
 .btn {

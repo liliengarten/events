@@ -56,19 +56,14 @@ nav a:hover {
 import { useRouter } from "vue-router";
 import SearchBar from "@/components/SearchBar.vue";
 import { useUser } from "@/store";
-// import { computed } from "vue";
 
 const { setToken, isAuthorized } = useUser();
 const router = useRouter();
 
-// const justify = computed(() => {
-//   if (isAuthorized) return "justify-content-space-between";
-//   return "justify-content-center";
-// });
-
 const logout = () => {
   if (localStorage.getItem("userToken")) {
     localStorage.setItem("userToken", "");
+    localStorage.setItem("userId", "");
     setToken("");
     router.push("/login");
   }

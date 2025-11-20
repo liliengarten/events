@@ -6,11 +6,11 @@ import EventCard from "@/components/EventCard.vue";
 import { api, checkAuthorization } from "@/main";
 
 const { getEvents, events, getEventPlaces, eventPlaces } = useEvents();
-
 const { addEventVisible, addEventVisibility } = useModals();
 
-const addEvent = (event) => {
+const addEvent = async (event) => {
   const formData = new FormData(event.target);
+
   let start = formData.get("start_date");
   let end = formData.get("end_date");
 
@@ -23,13 +23,16 @@ const addEvent = (event) => {
   ) {
     formData.set("start_date", `${start[0]} ${start[1]}`);
     formData.set("end_date", `${end[0]} ${end[1]}`);
-    api("/events", {
+    await api("/events", {
       method: "POST",
       body: formData,
     });
-    getEvents();
+    await getEvents();
     addEventVisibility();
   } else {
+    alert(
+      "Время начала мероприятия должно быть не раньше 9:00, а окончание не позже 21:00"
+    );
     return;
   }
 };
@@ -42,43 +45,35 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div>
-    <div class="buttons">
-      <button class="btn btn-outline-success" @click="addEventVisibility">
-        Добавить мероприятие
-      </button>
-    </div>
-    <div class="accordion" id="eventsAccordion">
+  <div class="wrapper">
+    <button @click="addEventVisibility" class="btn btn-success">
+      Добавить мероприятие
+    </button>
+    <div v-if="events" class="accordion w-50" id="events">
       <div v-for="event in events" :key="event.id" class="accordion-item">
         <h2 class="accordion-header">
           <button
+            v-html="event.name"
             class="accordion-button"
             type="button"
-            data-bs-toggle="collpace"
+            data-bs-toggle="collapse"
             :data-bs-target="`#${event.id}`"
-          >
-            {{ event.name }}
-          </button>
-          <div
-            :id="event.id"
-            class="accordion-collapse collapse"
-            data-bs-parent="#eventsAccordion"
-          >
-            <div class="accordion-body">
-              <event-card event="event"></event-card>
-            </div>
-          </div>
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          ></button>
         </h2>
+        <div
+          :id="event.id"
+          class="accordion-collapse collapse"
+          data-bs-parent="#events"
+        >
+          <div class="accordion-body">
+            <event-card :event="event"></event-card>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div v-if="events" class="hideScroll">
-      <event-card
-        v-for="event in events"
-        :key="event.id"
-        :event="event"
-      ></event-card>
-    </div>
     <div class="modall" v-show="addEventVisible">
       <div class="modalWrapper">
         <button class="closeButton" @click="addEventVisibility">Назад</button>
@@ -122,5 +117,15 @@ onMounted(() => {
   flex-direction: column;
   gap: 12px;
   width: 200px;
+}
+
+.accordion {
+  z-index: 0;
+}
+
+.btn {
+  position: fixed;
+  top: 10%;
+  left: 3%;
 }
 </style>

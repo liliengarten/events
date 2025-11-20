@@ -1,18 +1,91 @@
 <script setup>
 import { api } from "@/main";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useModals } from "@/store";
 
 const router = useRouter();
+const errors = ref([]);
+const { errorVisible, errorVisibility } = useModals();
+
 const attemptRegistration = async (event) => {
   const formData = new FormData(event.target);
-  let date = formData.get("birth_date").split("-");
-  date = `${date[1]}-${date[2]}-${date[0]}`;
-  formData.set("birth_date", date);
 
-  if (formData.get("password") === formData.get("passwordRepeat")) {
-    await api("/registration", { method: "POST", body: formData });
+  if (validateRegistration(formData)) {
+    errors.value = [];
+    let date = formData.get("birth_date").split("-");
+    date = `${date[1]}-${date[2]}-${date[0]}`;
+    formData.set("birth_date", date);
+
+    if (formData.get("password") === formData.get("passwordRepeat")) {
+      await api("/registration", { method: "POST", body: formData });
+    }
+    router.push("/login");
+  } else {
+    errorVisibility();
+    setTimeout(() => {
+      errorVisibility();
+    }, 3000);
   }
-  router.push("/login");
+};
+const validateRegistration = (formData) => {
+  errors.value = [];
+  const latin = /[a-zA-Z]/;
+  const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const first_name = formData.get("first_name");
+  const last_name = formData.get("last_name");
+  const password = formData.get("password");
+
+  let containsLatin = false;
+  let includesNumbers = false;
+  let containsUpperCase = false;
+  let containsLowerCase = false;
+
+  if (latin.test(first_name) || latin.test(last_name)) {
+    containsLatin = true;
+  }
+  for (let number of numbers) {
+    if (password.includes(number)) {
+      includesNumbers = true;
+      break;
+    }
+  }
+
+  for (let letter of password) {
+    if (letter === letter.toUpperCase()) {
+      containsUpperCase = true;
+    } else if (letter === letter.toLowerCase()) {
+      containsLowerCase = true;
+    }
+
+    if (containsUpperCase && containsLowerCase) break;
+  }
+
+  if (containsLatin) {
+    errors.value.push(
+      "Поля имени и фамилии не могут содержать латинских символов!"
+    );
+  }
+  if (!includesNumbers) {
+    errors.value.push("Пароль должен содержать хотя бы одну цифру!");
+  }
+  if (!containsUpperCase) {
+    errors.value.push("Пароль должен содержать хотя бы одну заглавную букву!");
+  }
+  if (!containsLowerCase) {
+    errors.value.push("Пароль должен содержать хотя бы одну строчную букву!");
+  }
+
+  if (
+    !includesNumbers ||
+    !containsUpperCase ||
+    !containsLowerCase ||
+    containsLatin
+  ) {
+    return false;
+  }
+  return true;
 };
 </script>
 
@@ -63,7 +136,7 @@ const attemptRegistration = async (event) => {
           <div class="d-flex flex-column">
             <div class="d-flex flex-column">
               <label>E-mail</label>
-              <input required type="text" name="email" />
+              <input required type="email" name="email" />
             </div>
             <label>Пароль</label>
             <input required type="password" name="password" />
@@ -85,6 +158,13 @@ const attemptRegistration = async (event) => {
         </button>
       </div>
     </form>
+  </div>
+  <div class="modall" v-show="errorVisible">
+    <div class="modalWrapper d-flex flex-column gap-3">
+      <p v-for="error in errors" :key="error">
+        {{ error }}
+      </p>
+    </div>
   </div>
 </template>
 

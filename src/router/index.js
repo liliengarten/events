@@ -19,11 +19,6 @@ const routes = [
     redirect: mainRedirect(),
   },
   {
-    path: "/:pathMatch(.*)*",
-    name: "not-found",
-    component: NotFoundView,
-  },
-  {
     path: "/forbidden-for-you",
     name: "forbidden-for-you",
     component: ForbiddenForYou,
@@ -62,6 +57,11 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: ProfileView,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    component: NotFoundView,
   },
 ];
 

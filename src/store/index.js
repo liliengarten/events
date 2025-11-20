@@ -58,8 +58,10 @@ export const useEvents = () => {
     const data = await api("/book-event", {
       method: "GET",
     });
-    console.log(data);
     bookedEvents.value = data;
+  };
+  const searchEvents = (newEvents) => {
+    events.value = newEvents;
   };
 
   return {
@@ -73,6 +75,7 @@ export const useEvents = () => {
     getFeedback,
     bookedEvents,
     getBookedEvents,
+    searchEvents,
   };
 };
 
@@ -85,6 +88,9 @@ export const useModals = () => {
   const addPlaceVisible = ref(false);
   const addFeedbackVisible = ref(false);
   const editProfileVisible = ref(false);
+  const errorVisible = ref(false);
+  const removeScroll = ref(false);
+  const deleteEventVisible = ref(false);
 
   const authorizationVisibility = () => {
     loginVisible.value = !loginVisible.value;
@@ -92,6 +98,7 @@ export const useModals = () => {
   };
   const addEventVisibility = () => {
     addEventVisible.value = !addEventVisible.value;
+    removeScroll.value = !removeScroll.value;
   };
   const editEventVisibility = () => {
     editEventVisible.value = !editEventVisible.value;
@@ -107,6 +114,12 @@ export const useModals = () => {
   };
   const editProfileVisibility = () => {
     editProfileVisible.value = !editProfileVisible.value;
+  };
+  const errorVisibility = () => {
+    errorVisible.value = !errorVisible.value;
+  };
+  const deleteEventVisibility = () => {
+    deleteEventVisible.value = !deleteEventVisible.value;
   };
   return {
     registrationVisible,
@@ -124,6 +137,11 @@ export const useModals = () => {
     addFeedbackVisibility,
     editProfileVisible,
     editProfileVisibility,
+    errorVisible,
+    errorVisibility,
+    removeScroll,
+    deleteEventVisible,
+    deleteEventVisibility,
   };
 };
 
