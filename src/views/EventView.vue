@@ -88,7 +88,7 @@ const deleteEvent = async () => {
 };
 
 const placesLeft = computed(() => {
-  return Number(event.event_counter) - Number(event.current_people);
+  return event.value.event_counter - event.value.current_people;
 });
 
 onMounted(async () => {

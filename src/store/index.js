@@ -6,7 +6,7 @@ const userToken = ref(localStorage.getItem("userToken") || "");
 
 const aboutInfo = ref([]);
 const events = ref([]);
-const event = ref([]);
+const event = ref({});
 const bookedEvents = ref([]);
 const eventPlaces = ref([]);
 const feedbacks = ref([]);
